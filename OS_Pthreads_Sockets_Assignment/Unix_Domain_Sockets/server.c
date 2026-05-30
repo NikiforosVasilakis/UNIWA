@@ -53,6 +53,13 @@ static void *handle_client(void *arg)
         long sum = 0;
         for (int i = 0; i < n; i++) sum += arr[i];
         double avg = (double)sum / n;
+
+        printf("Ακολουθία από client (fd=%d): [", cfd);
+        for (int i = 0; i < n; i++)
+            printf(i < n - 1 ? "%d," : "%d", arr[i]);
+        printf("]\n");
+        fflush(stdout);
+
         free(arr);
 
         char resp[RESP_SIZE];
