@@ -51,10 +51,21 @@ int main(void)
         write(sfd, arr, (size_t)n * sizeof(int));
         free(arr);
 
-        /* Λήψη και εκτύπωση απάντησης */
+        /* Λήψη και εκτύπωση απάντησης, επανάληψη αν ο χρήστης επιλέξει */
         char resp[RESP_SIZE];
         if (read(sfd, resp, RESP_SIZE) > 0)
             printf("Server: %s\n", resp);
+
+        char repeat;
+        do {
+            printf("Επανάληψη ακολουθίας; (y/n): ");
+            scanf(" %c", &repeat);
+            write(sfd, &repeat, 1);
+            if (repeat == 'y' || repeat == 'Y') {
+                if (read(sfd, resp, RESP_SIZE) > 0)
+                    printf("Server: %s\n", resp);
+            }
+        } while (repeat == 'y' || repeat == 'Y');
 
         printf("Νέα ακολουθία; (y/n): ");
         scanf(" %c", &again);

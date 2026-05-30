@@ -62,6 +62,11 @@ static void *handle_client(void *arg)
             snprintf(resp, sizeof(resp), "Check Failed");
 
         write(cfd, resp, RESP_SIZE);
+
+        /* Επανάληψη ακολουθίας όσο ο client απαντά 'y' */
+        char ack;
+        while (readn(cfd, &ack, 1) == 1 && (ack == 'y' || ack == 'Y'))
+            write(cfd, resp, RESP_SIZE);
     }
 
     close(cfd);
